@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+    <title>
+        HomePage
+    </title>
+</head>
+<style>
+    .bodytext {
+      font-family: "Verdana", "Arial", sans-serif;
+      font-size: 24px;
+      text-align: left;
+      font-weight: light;
+      border-radius: 5px;
+      display:inline;
+    }
+    .throttleslider {
+      width: 80%;
+      height: 55px;
+      outline: none;
+      height: 25px;
+    }
+    .rollslider {
+      width: 80%;
+      height: 55px;
+      outline: none;
+      height: 25px;
+    }
+    .pitchslider {
+      width: 80%;
+      height: 55px;
+      outline: none;
+      height: 25px;
+    }
+    .yawslider{
+      width: 80%;
+      height: 55px;
+      outline: none;
+      height: 25px;
+      color:rgb(244, 41, 41);
+    }
+</style>
+<body>
+    <h1>Control Panel</h1>
+    <br>
+    <br>
+    <div class="bodytext">ESC Speed( ESC1: <span id="esc1_speed"></span> ESC2: <span id="esc2_speed"></span> ESC3: <span id="esc3_speed"></span> ESC4: <span id="esc4_speed"></span>)</div>
+    <br>
+    <br>
+    <div class="bodytext">Input Throttle (us (slider): <span id="throttle_slider"></span>) (us (drone): <span id="throttle"></span>)</div>
+    <br>
+    <input type="range" class="throttleslider" min="0" max="2000" value = "0" width = "0%" onchange="UpdateThrottle(this.value)" oninput="UpdateThrottleSlider(this.value)" oninput="UpdateSpeed()" />
+    <br>
+    <div class="bodytext">Roll Control (độ (slider): <span id="roll_slider"></span>) (độ (drone): <span id="roll"></span>)</div>
+    <br>
+    <input type="range" class="rollslider" min="-45" max="45" value = "0" width = "0%" onchange="UpdateRoll(this.value)" oninput="UpdateRollSlider(this.value)" oninput="UpdateSpeed()"/>
+    <br>
+    <div class="bodytext">Pitch Control (độ: <span id="pitch_slider"></span>) (độ (drone): <span id="pitch"></span>)</div>
+    <br>
+    <input type="range" class="pitchslider" min="-45" max="45" value = "0" width = "0%" onchange="UpdatePitch(this.value)" oninput="UpdatePitchSlider(this.value)" oninput="UpdateSpeed()"/>
+    <br>
+    <div class="bodytext">Yaw Control (độ: <span id="yaw_slider"></span>) (độ (drone): <span id="yaw"></span>)</div>
+    <br>
+    <input type="range" class="yawslider" min="-180" max="180" value = "0" width = "0%" onchange="UpdateYaw(this.value)" oninput="UpdateYawSlider(this.value)" oninput="UpdateSpeed()"/>
+</body>
+
+<script>
+
+    function UpdateThrottleSlider(value) {
+      document.getElementById("throttle_slider").innerHTML=value;
+    }
+    function UpdateRollSlider(value){
+      document.getElementById("roll_slider").innerHTML=value;
+    }
+    function UpdatePitchSlider(value){
+      document.getElementById("pitch_slider").innerHTML=value;
+    }
+    function UpdateYawSlider(value){
+      document.getElementById("yaw_slider").innerHTML=value;
+    }
+
+    function UpdateSpeed(){
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          myArray = this.responseText.split(" ");
+          document.getElementById("esc1_speed").innerHTML= myArray[0];
+          document.getElementById("esc2_speed").innerHTML= myArray[1];
+          document.getElementById("esc3_speed").innerHTML= myArray[2];
+          document.getElementById("esc4_speed").innerHTML= myArray[3];
+        }
+      }
+      xhttp.open("GET", "LOAD_DATA", true);
+      xhttp.send();
+    }
+
+    function UpdateThrottle(value) {
+      var xhttp = new XMLHttpRequest();
+
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("throttle").innerHTML=this.responseText;
+        }
+      }
+      xhttp.open("PUT", "UPDATE_THROTTLE?VALUE="+value, true);
+      xhttp.send();
+    }
+
+    function UpdateRoll(value) {
+      var xhttp = new XMLHttpRequest();
+
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("roll").innerHTML=this.responseText;
+
+        }
+      }
+      xhttp.open("PUT", "UPDATE_ROLL?VALUE="+value, true);
+      xhttp.send();
+    }
+
+    function UpdatePitch(value) {
+      var xhttp = new XMLHttpRequest();
+
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("pitch").innerHTML=this.responseText;
+        }
+      }
+
+      xhttp.open("PUT", "UPDATE_PITCH?VALUE="+value, true);
+      xhttp.send();
+    }
+    
+    function UpdateYaw(value) {
+      var xhttp = new XMLHttpRequest();
+
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("yaw").innerHTML=this.responseText;
+        }
+      }
+
+      xhttp.open("PUT", "UPDATE_YAW?VALUE="+value, true);
+      xhttp.send();
+    }
+</script>
+</html>
+
