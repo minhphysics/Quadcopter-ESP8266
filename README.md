@@ -3,7 +3,7 @@ Code for ESP8266 controlling quadcopter
 Files included:<br>
 Code Arduino file<br>
 HTML File for controller webpage<br>
-File simulink của quadcopter đã cập nhật<br>
+File simulink của quadcopter đã cập nhật. Simulink MATLAB 2018b<br>
 # Hướng dẫn điều khiển ESP8266
 Bước 1: Nạp code cho vi điều khiển ESP8266.
 Dùng Arduino IDE để nạp code cho vi điều khiển. Sử dụng dây cab micro USB kết nối máy tính với kit MCU để nạp. <br>
